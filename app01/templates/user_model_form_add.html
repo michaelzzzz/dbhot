@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href={% static 'plugins/bootstrap-3.4.1-dist/css/bootstrap.min.css' %}>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">新建用户</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {#这里的field相当于form.数据库里的字段，比如form.name#}
+                    {% for field in form %}
+                        <div class="form-group">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            {#页面上展示错误信息#}
+                            <span style="color:red">{{ field.errors.0 }}</span>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">保存</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src={% static 'plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js' %}></script>
+    <script src={% static 'plugins/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.zh-CN.min.js' %}></script>
+    <script>
+    $(function (){
+        {#这边model_form的入职时间直接是id_数据库字段名#}
+        $('#id_create_time').datepicker({
+            format:'yyyy-mm-dd',
+            startDate:'0',
+            language:'zh-CN',
+            autoclose: true
+        });
+    })
+
+    </script>
+{% endblock %}
